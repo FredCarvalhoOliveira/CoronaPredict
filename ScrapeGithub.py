@@ -17,18 +17,16 @@ def extract_daily_report(date):
     soup = BeautifulSoup(resp, 'html.parser', from_encoding=resp.info().get_param('charset'))
 
     search_word = 'Portugal'
-    results = soup.body.find_all(string=re.compile('.*{0}.*'.format(search_word)), recursive=True)[0].split(',')
+    results = soup.body.find_all(string=re.compile('.*{0}.*'.format(search_word)), recursive=True)[0]
 
-    print(results)
-
-    # print(results.split(','))
+    return results
 
 # dates mm-dd-yyyy
 # new standard starts at '07-17-2020'
 # date = '07-17-2020'
 
 # date = datetime.datetime(2020, 7, 16)
-date = datetime.datetime(2022, 2, 1)
+date = datetime.datetime(2020, 7, 16)
 
 
 while date.strftime('%m-%d-%Y') != datetime.datetime.now().strftime('%m-%d-%Y'):
@@ -38,9 +36,15 @@ while date.strftime('%m-%d-%Y') != datetime.datetime.now().strftime('%m-%d-%Y'):
     print(date.strftime('%m-%d-%Y'))
 
 
-
     try:
+        f = open("test.txt", "a")
+
         report = extract_daily_report(date)
+
+        f.write(report + '\n')
+        f.close()
+
+
     except:
         print('Done!')
         break
